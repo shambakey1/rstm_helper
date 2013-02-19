@@ -47,6 +47,7 @@ extern vector<void*> n_set;             //Holds non executing transactions
 //extern pthread_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
 extern chronos_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
 extern bool mu;    //If m_set_mutx initialized, then it is true
+extern bool STM_CHECKPOINT;
 
 extern void mu_init();         //Initialize mutex and set mu_init to true
 extern void mu_lock();         //lock mu_init
