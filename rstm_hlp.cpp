@@ -6,7 +6,7 @@ vector<void*> n_set;             //Holds non executing transactions
 chronos_mutex_t m_set_mutx;
 bool mu=false;
 string sync_tech[]={"ECM","RCM","LCM","PNF","FBLT","OMLP","RNLP","LOCK_FREE"};
-STM_CHECKPOINT=false;
+bool STM_CHECKPOINT=false;
 
 void mu_init(){
     if(!mu){
