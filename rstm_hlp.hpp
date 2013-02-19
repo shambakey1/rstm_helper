@@ -53,6 +53,7 @@ extern void mu_lock();         //lock mu_init
 extern void mu_unlock();       //unlock mu_init
 extern string upperStr(string s);	//Change string s to uppercase
 extern bool check_sync(string s);	//Checks whether input synchronization technique already exists
+extern void setCheckpoint(bool set_cp);	//If set_cp=true, then we use checkpointing
 
 #endif	/* RSTM_HLP_HPP */
 

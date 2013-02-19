@@ -1,4 +1,4 @@
-#include "rstm_hlp.hpp"
+#include <rstm_hlp.hpp>
 
 vector<double> m_set_objs;       //Holds accessed objects by executing transactions
 vector<void*> n_set;             //Holds non executing transactions
@@ -37,4 +37,13 @@ bool check_sync(string s){
 		}
 	}
 	return false;
+}
+
+void setCheckpoint(bool set_cp){
+	if(set_cp){
+#define STM_CHECKPOINT;
+	}
+	else{
+#undef STM_CHECKPOINT;
+	}
 }
