@@ -22,12 +22,14 @@
 /*********************** PNF END ******************************/
 #define MILLION 1000000
 #define BILLION 1000000000
-//#define STM_CHECKPOINT
 #define SH_OBJ_PER 1
 
 
 using namespace std;
 
+/*
+ * Declare global data
+ */
 struct task_in_param{
     struct timespec* time_param;
     int gen_eta;                                //Maximum number of times each transaction can be aborted
@@ -44,17 +46,23 @@ struct task_in_param{
 extern string sync_tech[];	//different synchronization techniques
 extern vector<double> m_set_objs;       //Holds accessed objects by executing transactions
 extern vector<void*> n_set;             //Holds non executing transactions
-//extern pthread_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
 extern chronos_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
 extern bool mu;    //If m_set_mutx initialized, then it is true
-extern bool STM_CHECKPOINT;
+extern bool STM_CHECKPOINT;	//If true, then checkpointing is enabled.
+extern string sync;	//synchronization technique. If using STM, just name the "cm". If using locking
+					//, then name the locking protocol (e.g., "OMLP" or "RNLP"). If using "lock_free",
+					//, then say "lock_free"
 
+/*
+ * Declare global methods
+ */
 extern void mu_init();         //Initialize mutex and set mu_init to true
 extern void mu_lock();         //lock mu_init
 extern void mu_unlock();       //unlock mu_init
 extern string upperStr(string s);	//Change string s to uppercase
 extern bool check_sync(string s);	//Checks whether input synchronization technique already exists
 extern void setCheckpoint(bool set_cp);	//If set_cp=true, then we use checkpointing
+extern bool isSTM(string s);	//Return true if synchronization technique uses STM
 
 #endif	/* RSTM_HLP_HPP */
 
