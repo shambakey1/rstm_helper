@@ -9,7 +9,7 @@ chronos_mutex_t m_set_mutx;
 bool mu=false;
 string sync_tech[]={"ECM","RCM","LCM","PNF","FBLT","OMLP","RNLP","LOCK_FREE"};
 bool STM_CHECKPOINT=false;
-string sync="";
+string sync_alg="";
 
 /*
  * Define global methods
