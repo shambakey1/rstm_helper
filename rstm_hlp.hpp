@@ -11,6 +11,7 @@
 #include <vector>
 #include <pthread.h>
 #include <string>
+#include <pthread.h>
 #include <chronos/chronos.h>
 
 #define RUN_PRIO 40
@@ -46,7 +47,7 @@ struct task_in_param{
 extern string sync_tech[];	//different synchronization techniques
 extern vector<double> m_set_objs;       //Holds accessed objects by executing transactions
 extern vector<void*> n_set;             //Holds non executing transactions
-extern chronos_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
+extern pthread_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
 extern bool mu;    //If m_set_mutx initialized, then it is true
 extern bool STM_CHECKPOINT;	//If true, then checkpointing is enabled.
 extern string sync_alg;	//synchronization technique. If using STM, just name the "cm". If using locking

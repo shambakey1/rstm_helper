@@ -5,7 +5,7 @@
  */
 vector<double> m_set_objs;       //Holds accessed objects by executing transactions
 vector<void*> n_set;             //Holds non executing transactions
-chronos_mutex_t m_set_mutx;
+pthread_mutex_t m_set_mutx;
 bool mu=false;
 string sync_tech[]={"ECM","RCM","LCM","PNF","FBLT","OMLP","RNLP","LOCK_FREE"};
 bool STM_CHECKPOINT=false;
@@ -16,17 +16,17 @@ string sync_alg="";
  */
 void mu_init(){
     if(!mu){
-        chronos_mutex_init(&m_set_mutx);
+    	pthread_mutex_init(&m_set_mutx,NULL);
         mu=true;
     }
 }
 
 void mu_lock(){
-    chronos_mutex_lock(&m_set_mutx);
+	pthread_mutex_lock(&m_set_mutx);
 }
 
 void mu_unlock(){
-    chronos_mutex_unlock(&m_set_mutx);
+	pthread_mutex_unlock(&m_set_mutx);
 }
 
 string upperStr(string s){
