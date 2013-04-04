@@ -8,7 +8,9 @@ vector<void*> n_set;             //Holds non executing transactions
 pthread_mutex_t m_set_mutx;
 bool mu=false;
 string sync_tech[]={"ECM","RCM","LCM","PNF","FBLT","OMLP","RNLP","LOCK_FREE"};
-bool STM_CHECKPOINT=false;
+bool STM_CHECKPOINT=false;	//Default is no checkpointing
+bool TRANSITIVE=false;		//Default is no transitive retry
+double sh_lev=1;			//Default is all objects are available for sharing
 string sync_alg="";
 
 /*
@@ -48,6 +50,13 @@ bool check_sync(string s){
 
 void setCheckpoint(bool set_cp){
 	STM_CHECKPOINT=set_cp;
+}
+
+void setTransitiveRetry(bool set_str){
+	/*
+	 * If true, then objects are generated to introduce transitive retry patter
+	 */
+	TRANSITIVE=set_str;
 }
 
 bool isSTM(string s){

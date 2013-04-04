@@ -50,9 +50,11 @@ extern vector<void*> n_set;             //Holds non executing transactions
 extern pthread_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
 extern bool mu;    //If m_set_mutx initialized, then it is true
 extern bool STM_CHECKPOINT;	//If true, then checkpointing is enabled.
+extern bool TRANSITIVE;	//If true, then objects are generated in a pattern that introduces transitive retry
 extern string sync_alg;	//synchronization technique. If using STM, just name the "cm". If using locking
 					//, then name the locking protocol (e.g., "OMLP" or "RNLP"). If using "lock_free",
 					//, then say "lock_free"
+extern double sh_lev;			//Default is all objects are available for sharing (i.e., sh_lev=1)
 
 /*
  * Declare global methods
@@ -63,6 +65,7 @@ extern void mu_unlock();       //unlock mu_init
 extern string upperStr(string s);	//Change string s to uppercase
 extern bool check_sync(string s);	//Checks whether input synchronization technique already exists
 extern void setCheckpoint(bool set_cp);	//If set_cp=true, then we use checkpointing
+extern void setTransitiveRetry(bool set_tr);	//If true, then objects are generated to introduce transitive retry patter
 extern bool isSTM(string s);	//Return true if synchronization technique uses STM
 
 #endif	/* RSTM_HLP_HPP */
