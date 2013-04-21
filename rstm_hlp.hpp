@@ -51,6 +51,7 @@ extern pthread_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting o
 extern bool mu;    //If m_set_mutx initialized, then it is true
 extern bool STM_CHECKPOINT;	//If true, then checkpointing is enabled.
 extern bool TRANSITIVE;	//If true, then objects are generated in a pattern that introduces transitive retry
+extern bool CALIBRATION;	//If true, then experiment runs in calibration mode. In this mode, each task runs individually without interference from other tasks. This is used to determine overhead of different synchronization techniques
 extern string sync_alg;	//synchronization technique. If using STM, just name the "cm". If using locking
 					//, then name the locking protocol (e.g., "OMLP" or "RNLP"). If using "lock_free",
 					//, then say "lock_free"
@@ -66,6 +67,7 @@ extern string upperStr(string s);	//Change string s to uppercase
 extern bool check_sync(string s);	//Checks whether input synchronization technique already exists
 extern void setCheckpoint(bool set_cp);	//If set_cp=true, then we use checkpointing
 extern void setTransitiveRetry(bool set_tr);	//If true, then objects are generated to introduce transitive retry patter
+extern void setCalibration(bool set_cal);	//If true, then experiment runs in calibration mode. In this mode, each task runs individually without interference from other tasks. This is used to determine overhead of different synchronization techniques
 extern bool isSTM(string s);	//Return true if synchronization technique uses STM
 
 #endif	/* RSTM_HLP_HPP */

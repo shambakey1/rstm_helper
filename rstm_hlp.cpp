@@ -10,6 +10,7 @@ bool mu=false;
 string sync_tech[]={"ECM","RCM","LCM","PNF","FBLT","OMLP","RNLP","LOCK_FREE"};
 bool STM_CHECKPOINT=false;	//Default is no checkpointing
 bool TRANSITIVE=false;		//Default is no transitive retry
+bool CALIBRATION=false;		//Default is non-calibration mode
 double sh_lev=1;			//Default is all objects are available for sharing
 string sync_alg="";
 
@@ -57,6 +58,15 @@ void setTransitiveRetry(bool set_str){
 	 * If true, then objects are generated to introduce transitive retry patter
 	 */
 	TRANSITIVE=set_str;
+}
+
+void setCalibration(bool set_cal){
+	/*
+	 * If true, then experiment runs in calibration mode. In this mode, each task runs individually
+	 * without interference from other tasks. This is used to determine overhead of different
+	 * synchronization techniques
+	 */
+	CALIBRATION=set_cal;
 }
 
 bool isSTM(string s){
