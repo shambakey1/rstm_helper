@@ -20,6 +20,7 @@
 /*********************** PNF START ******************************/
 #define PNF_M_PRIO 46   //Used with PNF CM for executing and initially checking transactions
 #define PNF_N_PRIO 39   //Used with PNF CM for retrying transactions
+#define CM_MAIN_SERVICE 47	//Priority of centralized CM main service (i.e., pnf_main)
 /*********************** PNF END ******************************/
 #define MILLION 1000000
 #define BILLION 1000000000
@@ -48,6 +49,7 @@ extern string sync_tech[];	//different synchronization techniques
 extern vector<double> m_set_objs;       //Holds accessed objects by executing transactions
 extern vector<void*> n_set;             //Holds non executing transactions
 extern pthread_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
+extern pthread_mutexattr_t m_set_mutx_attr;//Attributes for m_set_mutex
 extern bool mu;    //If m_set_mutx initialized, then it is true
 extern bool STM_CHECKPOINT;	//If true, then checkpointing is enabled.
 extern bool TRANSITIVE;	//If true, then objects are generated in a pattern that introduces transitive retry
@@ -56,13 +58,14 @@ extern string sync_alg;	//synchronization technique. If using STM, just name the
 					//, then name the locking protocol (e.g., "OMLP" or "RNLP"). If using "lock_free",
 					//, then say "lock_free"
 extern double sh_lev;			//Default is all objects are available for sharing (i.e., sh_lev=1)
-
+extern bool cm_stop;	//Used with centralized CMs like PNF. If true, then the main service of CM stops
 /*
  * Declare global methods
  */
 extern void mu_init();         //Initialize mutex and set mu_init to true
 extern void mu_lock();         //lock mu_init
 extern void mu_unlock();       //unlock mu_init
+extern void mu_destroy();		//Destroy mutex
 extern string upperStr(string s);	//Change string s to uppercase
 extern bool check_sync(string s);	//Checks whether input synchronization technique already exists
 extern void setCheckpoint(bool set_cp);	//If set_cp=true, then we use checkpointing

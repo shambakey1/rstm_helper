@@ -6,6 +6,7 @@
 vector<double> m_set_objs;       //Holds accessed objects by executing transactions
 vector<void*> n_set;             //Holds non executing transactions
 pthread_mutex_t m_set_mutx;
+pthread_mutexattr_t m_set_mutx_attr;
 bool mu=false;
 string sync_tech[]={"ECM","RCM","LCM","PNF","FBLT","OMLP","RNLP","LOCK_FREE"};
 bool STM_CHECKPOINT=false;	//Default is no checkpointing
@@ -13,15 +14,15 @@ bool TRANSITIVE=false;		//Default is no transitive retry
 bool CALIBRATION=false;		//Default is non-calibration mode
 double sh_lev=1;			//Default is all objects are available for sharing
 string sync_alg="";
-
+bool cm_stop=false;	//If true, then pnf_helper stops
 /*
  * Define global methods
  */
 void mu_init(){
-    if(!mu){
-    	pthread_mutex_init(&m_set_mutx,NULL);
-        mu=true;
-    }
+	pthread_mutexattr_init(&m_set_mutx_attr);
+	pthread_mutexattr_setprotocol(&m_set_mutx_attr,PTHREAD_PRIO_INHERIT);
+    pthread_mutex_init(&m_set_mutx,&m_set_mutx_attr);
+    mu=true;
 }
 
 void mu_lock(){
@@ -30,6 +31,12 @@ void mu_lock(){
 
 void mu_unlock(){
 	pthread_mutex_unlock(&m_set_mutx);
+}
+
+void mu_destroy(){
+	pthread_mutex_destroy(&m_set_mutx);
+	pthread_mutexattr_destroy(&m_set_mutx_attr);
+	mu=false;
 }
 
 string upperStr(string s){
@@ -78,3 +85,5 @@ bool isSTM(string s){
 	}
 	return false;
 }
+
+
