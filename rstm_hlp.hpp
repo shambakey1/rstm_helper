@@ -58,7 +58,7 @@ extern string sync_alg;	//synchronization technique. If using STM, just name the
 					//, then name the locking protocol (e.g., "OMLP" or "RNLP"). If using "lock_free",
 					//, then say "lock_free"
 extern double sh_lev;			//Default is all objects are available for sharing (i.e., sh_lev=1)
-extern bool cm_stop;	//Used with centralized CMs like PNF. If true, then the main service of CM stops
+extern unsigned long cm_stop;	//Used with centralized CMs like PNF. If 0, then the main service of CM stops
 /*
  * Declare global methods
  */

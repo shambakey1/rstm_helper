@@ -14,7 +14,7 @@ bool TRANSITIVE=false;		//Default is no transitive retry
 bool CALIBRATION=false;		//Default is non-calibration mode
 double sh_lev=1;			//Default is all objects are available for sharing
 string sync_alg="";
-bool cm_stop=false;	//If true, then pnf_helper stops
+unsigned long cm_stop=0;	//Used with centralized CMs like PNF. If 0, then the main service of CM stops
 /*
  * Define global methods
  */
