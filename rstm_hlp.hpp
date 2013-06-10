@@ -49,6 +49,8 @@ extern string sync_tech[];	//different synchronization techniques
 extern vector<double> m_set_objs;       //Holds accessed objects by executing transactions
 extern vector<void*> n_set;             //Holds non executing transactions
 extern pthread_mutex_t m_set_mutx;      //Mutex to check m_set for conflicting objects. Removal from m_set does not need mutex
+extern pthread_mutex_t new_tx_released_mutex;	//Held by a new released Tx that requires notifying centralized CM like PNF
+extern pthread_mutex_t new_tx_committed_mutex;	//Held by a committed Tx that requires notifying centralized CM like PNF
 extern pthread_mutexattr_t m_set_mutx_attr;//Attributes for m_set_mutex
 extern bool mu;    //If m_set_mutx initialized, then it is true
 extern bool STM_CHECKPOINT;	//If true, then checkpointing is enabled.
@@ -58,14 +60,18 @@ extern string sync_alg;	//synchronization technique. If using STM, just name the
 					//, then name the locking protocol (e.g., "OMLP" or "RNLP"). If using "lock_free",
 					//, then say "lock_free"
 extern double sh_lev;			//Default is all objects are available for sharing (i.e., sh_lev=1)
-extern unsigned long cm_stop;	//Used with centralized CMs like PNF. If 0, then the main service of CM stops
+extern volatile unsigned long cm_stop;	//Used with centralized CMs like PNF. If 0, then the main service of CM stops
 /*
  * Declare global methods
  */
-extern void mu_init();         //Initialize mutex and set mu_init to true
+extern void mu_init();         //Initialize m_set, new_tx_released and new_tx_committed mutex and set mu_init to true
 extern void mu_lock();         //lock mu_init
 extern void mu_unlock();       //unlock mu_init
-extern void mu_destroy();		//Destroy mutex
+extern void new_tx_released_lock();	//lock new_tx_released_mutex
+extern void new_tx_released_unlock();	//unlock new_tx_released_mutex
+extern void new_tx_committed_lock();	//lock new_tx_committed_mutex
+extern void new_tx_committed_unlock();	//unlock new_tx_committed_mutex
+extern void mu_destroy();		//Destroy m_set, new_tx_released and new_tx_committed mutex
 extern string upperStr(string s);	//Change string s to uppercase
 extern bool check_sync(string s);	//Checks whether input synchronization technique already exists
 extern void setCheckpoint(bool set_cp);	//If set_cp=true, then we use checkpointing
